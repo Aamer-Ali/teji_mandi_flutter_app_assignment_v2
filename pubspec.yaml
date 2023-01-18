@@ -38,6 +38,7 @@ dependencies:
   data_connection_checker_tv:
   dio:
   equatable:
+  sqflite:
 
 dev_dependencies:
   flutter_test:

@@ -10,7 +10,7 @@ class GetNewsArticles {
   GetNewsArticles(this._repository);
 
   Future<Either<Failure, List<Article>>?>? call(
-      ArticleRequestParams params) async {
+      ArticleRequestParams params ) async {
     final response = await _repository.getNewsArticle(params);
     return response;
   }

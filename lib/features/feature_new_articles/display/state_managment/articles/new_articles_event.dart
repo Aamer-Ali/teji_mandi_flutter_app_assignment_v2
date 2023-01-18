@@ -7,3 +7,8 @@ class GetNewsArticlesEvent extends NewsArticlesEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetMoreArticles extends NewsArticlesEvent {
+  @override
+  List<Object?> get props => [];
+}

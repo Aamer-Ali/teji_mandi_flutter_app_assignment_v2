@@ -26,7 +26,7 @@ class ArticleCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: article.urlToImage != null || article.urlToImage == ""
+            child: article.urlToImage != null
                 ? Image.network(
                     article.urlToImage ?? "",
                     fit: BoxFit.fill,

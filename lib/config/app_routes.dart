@@ -10,7 +10,7 @@ class AppRoutes {
   static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case kLandingPageRoute:
-        return _materialRoute(const LandingPage());
+        return _materialRoute(LandingPage());
       case kArticleDetailsRoute:
         return _materialRoute(ArticleDetails(
           article: settings.arguments! as Article,

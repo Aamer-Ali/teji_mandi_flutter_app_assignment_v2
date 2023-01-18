@@ -11,22 +11,46 @@ part 'news_articles_state.dart';
 
 class NewsArticlesBloc extends Bloc<NewsArticlesEvent, NewsArticlesState> {
   final GetNewsArticles _getNewsArticles;
+  int index = 0;
+  final List<Article> completeArticles = [];
+  final List<Article> subList = [];
 
-  NewsArticlesBloc(this._getNewsArticles)
-      : super(NewsArticlesInitialState()) {
+  NewsArticlesBloc(this._getNewsArticles) : super(NewsArticlesInitialState()) {
     on<GetNewsArticlesEvent>((event, emit) async {
       try {
         emit(NewsArticlesLoadingState());
         final response = await _getNewsArticles.call(ArticleRequestParams());
-
+        index = 0;
+        completeArticles.clear();
+        subList.clear();
         response!.fold(
-            (newFailure) =>
+                (newFailure) =>
                 emit(NewsArticlesFailureState(newFailure.errorMessage!)),
-            (newResponse) => emit(NewsArticlesDoneState(newResponse)));
+                (newResponse) {
+              completeArticles.addAll(newResponse);
+              for (int i = index; i < 5; i++) {
+                subList.add(completeArticles[i]);
+                index = i;
+              }
+              index++;
+              emit(NewsArticlesDoneState(subList));
+            });
       } on Exception catch (error) {
         emit(
             NewsArticlesFailureState("There is some problem Please try again"));
       }
+    });
+
+    on<GetMoreArticles>((event, emit) async {
+      if (index + 5 > completeArticles.length) {
+        subList.addAll(completeArticles.sublist(index));
+      } else {
+        for (int i = index; i < index + 5; i++) {
+          subList.add(completeArticles[i]);
+        }
+        index = index + 5;
+      }
+      emit(NewsArticlesDoneState(subList));
     });
   }
 }
